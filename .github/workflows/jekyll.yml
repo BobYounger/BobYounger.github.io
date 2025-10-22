@@ -3,7 +3,7 @@ name: Build and Deploy Jekyll site to GitHub Pages
 on:
   push:
     branches:
-      - main  # 如果你的主分支叫 master，请改成 master
+      - main
 
 permissions:
   contents: read
@@ -27,10 +27,13 @@ jobs:
           ruby-version: 3.1
           bundler-cache: true
 
-      - name: Build Jekyll site
+      - name: Install Jekyll and dependencies
         run: |
-          gem install jekyll jekyll-feed jekyll-seo-tag
-          jekyll build -d _site
+          gem install jekyll -v "~> 4.3.2"
+          gem install jekyll-seo-tag jekyll-feed
+
+      - name: Build site with Jekyll 4.x
+        run: jekyll build -d _site
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
